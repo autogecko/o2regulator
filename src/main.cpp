@@ -1,12 +1,12 @@
 
 
 #include "o2Reg.h"
+
 #define pinBtnUp 25
 #define pinBtnMenu 33
 #define pinBtnDn 32
 
-/* static const char *TAG = "myModule"; */
-/* esp_log_level_set("*", ESP_LOG_INFO); */
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -40,7 +40,6 @@ void setup() {
   //Network Check
   Serial.println("-- Network Check ");
   CUR_MODE = RUNNING_MODE;
-//  ESP_LOGW(TASK1_TAG,"hello loogoogogo from setup");
 }
 
 void loop() {
@@ -48,3 +47,5 @@ void loop() {
     btnDn.loop();
     btnMenu.loop();
 }
+
+
