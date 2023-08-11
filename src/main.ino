@@ -28,7 +28,7 @@ void setup() {
 
   btnMenu.setClickHandler(hndlr_btnMenu);
   btnMenu.setLongClickHandler(hndlr_btnMenu);
-  Serial.print("-- Button Setup\n");
+  Serial.println("-- Button Setup");
   delay(1000);
 
 
