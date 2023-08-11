@@ -2,22 +2,23 @@
 #define O2REG_H_
 
 #endif // O2REG_H_
-
+#include "Arduino.h"
 #include "Button2.h"
 
-extern Button2 btnUp, btnMenu, btnDn ;
+enum Mode_Type {
+  MENU_MODE = 0,
+  BOOT_MODE,
+  RUNNING_MODE,
+  WARN_CHANGE_MODE,
+  INFO_MODE ,
+  SETTING_MODE,
+  NET_SETTING_MODE,
+  NET_CHECK_MODE,
+  REBOOT_MODE,
+  WARN_CONFIRM_MODE
+};
 
-#define MENU_MODE 1
-#define BOOT_MODE 2
-#define RUNNING_MODE 3
-#define WARN_CHANGE_MODE 4
-#define INFO_MODE 5
-#define SETTING_MODE 6
-#define NET_SETTING_MODE 7
-#define NET_CHECK_MODE 8
-#define REBOOT_MODE 9
-#define WARN_CONFIRM_MODE 10
-
+static Mode_Type CUR_MODE = MENU_MODE;
 
 #define nMainMenu 3
 #define nSubMenu 3
@@ -28,10 +29,9 @@ extern Button2 btnUp, btnMenu, btnDn ;
 
 
 
-extern int CUR_MODE ;
 extern int warnLevel ;
-extern int nItemMainMenu ;
-extern int nItemSubMenu ;
+extern int nSelectedMainMenu ;
+extern int nSelectedSubMenu ;
 
 extern char MODE_ITEM[10][20];;
 //char MODE_SUB_SETTING_ITEM[3][20] =
@@ -39,9 +39,10 @@ extern char MODE_ITEM[10][20];;
 extern char mainMenuItem[nMainMenu][12];
 extern char subMenuItem[nSubMenu][12] ;
 
+static Button2 btnUp, btnMenu, btnDn ;
 // ------------------------------------------------------------------
-void set_mode(int _CUR_);
-void hndlr_btnUp(Button2 &btn) ;
-void hndlr_btnMenu(Button2 &btn);
-void hndlr_btnDn(Button2 &btn) ;
-void update_display();
+extern "C" void set_mode(int _CUR_);
+extern "C" void hndlr_btnUp(Button2 &btn) ;
+extern "C" void hndlr_btnMenu(Button2 &btn);
+extern "C" void hndlr_btnDn(Button2 &btn) ;
+extern "C" void update_display();
