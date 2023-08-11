@@ -1,6 +1,7 @@
 
 
 #include "o2Reg.h"
+
 #define pinBtnUp 25
 #define pinBtnMenu 33
 #define pinBtnDn 32
@@ -47,4 +48,5 @@ void loop() {
     btnUp.loop();
     btnDn.loop();
     btnMenu.loop();
+    update_display();
 }
