@@ -41,8 +41,14 @@ extern char subMenuItem[nSubMenu][12] ;
 
 static Button2 btnUp, btnMenu, btnDn ;
 // ------------------------------------------------------------------
-extern "C" void set_mode(int _CUR_);
-extern "C" void hndlr_btnUp(Button2 &btn) ;
-extern "C" void hndlr_btnMenu(Button2 &btn);
-extern "C" void hndlr_btnDn(Button2 &btn) ;
-extern "C" void update_display();
+// extern "C" void set_mode(int _CUR_);
+// extern "C" void hndlr_btnUp(Button2 &btn) ;
+// extern "C" void hndlr_btnMenu(Button2 &btn);
+// extern "C" void hndlr_btnDn(Button2 &btn) ;
+// extern "C" void update_display();
+
+void set_mode(int _CUR_);
+void hndlr_btnUp(Button2 &btn) ;
+void hndlr_btnMenu(Button2 &btn);
+void hndlr_btnDn(Button2 &btn) ;
+void update_display();

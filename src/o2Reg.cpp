@@ -33,6 +33,7 @@ void hndlr_btnUp(Button2 &btn) {
       break;
   }
 
+  Serial.printf("Selecte #: %d\n", nSelectedMainMenu);
   update_display();
 }
 // #33 pin
@@ -48,7 +49,7 @@ void hndlr_btnMenu(Button2 &btn) {
       if (CUR_MODE == SETTING_MODE && nSelectedSubMenu == 1) set_mode(WARN_CHANGE_MODE);
       if (CUR_MODE == SETTING_MODE && nSelectedSubMenu == 2) set_mode(RUNNING_MODE);
 
-      if (CUR_MODE == RUNNING_MODE) set_mode(RUNNING_MODE);
+      if (CUR_MODE == RUNNING_MODE) set_mode(MENU_MODE);
       if (CUR_MODE == WARN_CHANGE_MODE ) set_mode(MENU_MODE);
       if (CUR_MODE == INFO_MODE ) set_mode(RUNNING_MODE);
       if (CUR_MODE == NET_SETTING_MODE) set_mode(REBOOT_MODE);
@@ -71,6 +72,8 @@ void hndlr_btnDn(Button2 &btn) {
   case long_click:
     break;
   }
+
+  Serial.printf("Selecte #: %d\n", nSelectedMainMenu);
   update_display();
 }
 

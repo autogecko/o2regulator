@@ -29,15 +29,12 @@ void setup() {
   btnMenu.setClickHandler(hndlr_btnMenu);
   btnMenu.setLongClickHandler(hndlr_btnMenu);
   Serial.println("-- Button Setup");
-  delay(1000);
-
-
-
+  delay(500);
 
   // Network Setup
   //
   Serial.println("-- Network Setup");
-  delay(1000);
+  delay(500);
   //Network Check
   Serial.println("-- Network Check ");
 //   CUR_MODE = RUNNING_MODE;
