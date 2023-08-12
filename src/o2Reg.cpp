@@ -26,6 +26,7 @@ void set_mode(Mode_Type _CUR_){
     for(int i=0; i<3; i++){
       delay(500);
       Serial.printf("%d sec to reboot\n", i);
+//      wmm->resetSettings();
     }
 //    CUR_MODE = RUNNING_MODE; //debug
   }

@@ -27,7 +27,7 @@ static Mode_Type CUR_MODE = MENU_MODE;
 #define nSubMenu 3
 #define MIN_WARN_LEVEL 3
 #define MAX_WARN_LEVEL 12
-#define RESET_BUTTON 0
+#define RESET_BUTTON  26
 
 static char * AP_PASSWORD ="CHANGEME";  // This is the password for your configuration access point, change as desired
 
