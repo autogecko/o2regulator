@@ -40,7 +40,9 @@ extern char mainMenuItem[nMainMenu][12];
 extern char subMenuItem[nSubMenu][12] ;
 
 static Button2 btnUp, btnMenu, btnDn ;
+static int pressureValue = 100;
 // ------------------------------------------------------------------
+//
 // extern "C" void set_mode(int _CUR_);
 // extern "C" void hndlr_btnUp(Button2 &btn) ;
 // extern "C" void hndlr_btnMenu(Button2 &btn);
