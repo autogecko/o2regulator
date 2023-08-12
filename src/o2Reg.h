@@ -5,6 +5,9 @@
 #include "Arduino.h"
 #include "Button2.h"
 
+//#include "secrets.h"
+#include <WiFiMQTTManager.h>
+
 enum Mode_Type {
   MENU_MODE = 0,
   BOOT_MODE,
@@ -24,8 +27,9 @@ static Mode_Type CUR_MODE = MENU_MODE;
 #define nSubMenu 3
 #define MIN_WARN_LEVEL 3
 #define MAX_WARN_LEVEL 12
+#define RESET_BUTTON 0
 
-
+static char * AP_PASSWORD ="CHANGEME";  // This is the password for your configuration access point, change as desired
 
 
 
@@ -40,6 +44,8 @@ extern char mainMenuItem[nMainMenu][12];
 extern char subMenuItem[nSubMenu][12] ;
 
 static Button2 btnUp, btnMenu, btnDn ;
+
+extern WiFiMQTTManager wmm;
 static int pressureValue = 100;
 // ------------------------------------------------------------------
 //
@@ -54,3 +60,6 @@ void hndlr_btnUp(Button2 &btn) ;
 void hndlr_btnMenu(Button2 &btn);
 void hndlr_btnDn(Button2 &btn) ;
 void update_display();
+
+void subscribeTo() ;
+void subscriptionCallback(char* topic, byte* message, unsigned int length) ;

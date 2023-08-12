@@ -5,6 +5,7 @@
 
 int warnLevel = 3;
 
+WiFiMQTTManager wmm(RESET_BUTTON, AP_PASSWORD);  // AP_PASSWORD is defined in the secrets.h file
 
 char MODE_ITEM[10][20] = {"MEMU_MODE","BOOT_MODE","RUNNING_MODE","WARN_CHANGE_MODE","INFO_MODE","SETTING_MODE","NET_SETTING_MODE","NET_CHECK_MODE","REBOOT_MODE","WARN_CONFIRM_MODE"};
 //char MODE_SUB_SETTING_ITEM[3][20] =
@@ -26,7 +27,7 @@ void set_mode(Mode_Type _CUR_){
       delay(500);
       Serial.printf("%d sec to reboot\n", i);
     }
-    CUR_MODE = RUNNING_MODE; //debug
+//    CUR_MODE = RUNNING_MODE; //debug
   }
 
 }
@@ -150,7 +151,7 @@ void update_display(){
 
   else if (CUR_MODE == INFO_MODE) {
    Serial.printf(
-       "INFORMATION/n -ID:xxxx1234/n -GasService:30L/n [M] to Return");
+       "INFORMATION\n -ID:xxxx1234\n -GasService:30L\n [M] to Return");
   }
 
   else if (CUR_MODE == NET_CHECK_MODE){
@@ -160,4 +161,31 @@ void update_display(){
   else if (CUR_MODE == REBOOT_MODE){
     Serial.printf("REBOOT 5,4,3,2,1");
 }
+}
+
+// optional function to subscribe to MQTT topics
+void subscribeTo() {
+  Serial.println("subscribing to some topics...");
+  // subscribe to some topic(s)
+  char topic[100];
+  snprintf(topic, sizeof(topic), "%s%s%s", "switch/", wmm.deviceId, "/led1/output");
+  wmm.client->subscribe(topic);
+}
+
+// optional function to process MQTT subscribed to topics coming in
+void subscriptionCallback(char* topic, byte* message, unsigned int length) {
+  Serial.print("Message arrived on topic: ");
+  Serial.print(topic);
+  Serial.print(". Message: ");
+  String messageTemp;
+
+  for (int i = 0; i < length; i++) {
+    Serial.print((char)message[i]);
+    messageTemp += (char)message[i];
+  }
+  Serial.println();
+
+  //if (String(topic) == "switch/esp1234/led1/output") {
+  //  Serial.print("Changing led1 output to ");
+  //}
 }
