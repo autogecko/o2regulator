@@ -6,8 +6,9 @@
 #define pinBtnMenu 33
 #define pinBtnDn 32
 #define pinSenor 35
-
 #define pinWiFiSet 26
+
+
 
 bool WiFistatus = false;
 
@@ -17,17 +18,17 @@ void setup() {
   Serial.println("Hello, ESP32!");
   delay(50);
   pinMode(pinWiFiSet, INPUT_PULLUP);
+
+//----------------------------------------
  // WiFistatus = initWiFi();
-
   // WiFi-Mqtt 설정
-      wmm.subscribeTo = subscribeTo;
-      // required - allow WiFiMQTTManager to do it's setup
-      wmm.setup(__SKETCH_NAME__);
-      /* // optional - define a callback to handle incoming messages from MQTT */
-      wmm.client->setCallback(subscriptionCallback);
+      /* wmm.subscribeTo = subscribeTo; */
+      /* // required - allow WiFiMQTTManager to do it's setup */
+      /* wmm.setup(__SKETCH_NAME__); */
+      /* /\* // optional - define a callback to handle incoming messages from MQTT *\/ */
+      /* wmm.client->setCallback(subscriptionCallback); */
 
-
-
+//----------------------------------------
   // Buton Setup
   btnUp.begin(pinBtnUp);
   btnMenu.begin(pinBtnMenu);
@@ -44,6 +45,11 @@ void setup() {
   Serial.println("-- Button Setup");
   delay(500);
 
+//----------------------------------------
+tft.init();
+tft.setRotation(1);
+
+//----------------------------------------
   // Network Setup
   //
   Serial.println("-- Network Setup");
@@ -58,10 +64,9 @@ void loop() {
     btnUp.loop();
     btnDn.loop();
     btnMenu.loop();
+   /* wmm.loop(); */
 
-   wmm.loop();
-
-  /* // optional - example of publishing to MQTT a sensor reading once a 1 minute */
+  // optional - example of publishing to MQTT a sensor reading once a 1 minute
   /* long now = millis(); */
   /* if (now - wmm.lastMsg > 1000) { */
   /*   wmm.lastMsg = now; */
@@ -74,5 +79,3 @@ void loop() {
   /* } */
 
 }
-
-// optional function to subscribe to MQTT topics

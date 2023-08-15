@@ -16,6 +16,26 @@ char subMenuItem[nSubMenu][12] = {"Networks","Warn Level","Return" };
 int nSelectedMainMenu = 0;
 int nSelectedSubMenu = 0;
 
+TFT_eSPI tft = TFT_eSPI();  // Invoke library, pins defined in User_Setup.h
+
+#define TFT_BLACK       0x0000
+#define TFT_NAVY        0x000F
+#define TFT_DARKGREEN   0x03E0
+#define TFT_DARKCYAN    0x03EF
+#define TFT_MAROON      0x7800
+#define TFT_PURPLE      0x780F
+#define TFT_OLIVE       0x7BE0
+#define TFT_LIGHTGREY   0xC618
+#define TFT_DARKGREY    0x7BEF
+#define TFT_BLUE        0x001F
+#define TFT_GREEN       0x07E0
+#define TFT_CYAN        0x07FF
+#define TFT_RED         0xF800
+#define TFT_MAGENTA     0xF81F
+#define TFT_YELLOW      0xFFE0
+#define TFT_WHITE       0xFFFF
+#define TFT_ORANGE      0xFDA0
+#define TFT_GREENYELLOW 0xB7E0
 // ------------------------------------------------------------------
 // const int MIN_WARN_LEVEL = 3;  // default 최저 경고레벨
 // const int MAX_WARN_LEVEL = 12; // default 최고 경고레벨
@@ -60,6 +80,7 @@ void hndlr_btnMenu(Button2 &btn) {
   }
 
   update_display();//debug
+  debug_out();//debug
 }
 
 void hndlr_btnUp(Button2 &btn) {
@@ -83,6 +104,7 @@ void hndlr_btnUp(Button2 &btn) {
 
   Serial.printf("Selecte #: %d\n", nSelectedMainMenu);
   update_display();//debug
+  debug_out();//debug
 }
 
 void hndlr_btnDn(Button2 &btn) {
@@ -103,11 +125,65 @@ void hndlr_btnDn(Button2 &btn) {
   }
 
   update_display();//debug
+  debug_out(); //debug
+
 }
 
 
+// optional function to subscribe to MQTT topics
+void subscribeTo() {
+  Serial.println("subscribing to some topics...");
+  // subscribe to some topic(s)
+  char topic[100];
+  snprintf(topic, sizeof(topic), "%s%s%s", "switch/", wmm.deviceId, "/led1/output");
+  wmm.client->subscribe(topic);
+}
 
-void update_display(){
+// optional function to process MQTT subscribed to topics coming in
+void subscriptionCallback(char* topic, byte* message, unsigned int length) {
+  Serial.print("Message arrived on topic: ");
+  Serial.print(topic);
+  Serial.print(". Message: ");
+  String messageTemp;
+
+  for (int i = 0; i < length; i++) {
+    Serial.print((char)message[i]);
+    messageTemp += (char)message[i];
+  }
+  Serial.println();
+
+  //if (String(topic) == "switch/esp1234/led1/output") {
+  //  Serial.print("Changing led1 output to ");
+  //}
+}
+bool initWiFi() {
+  int cnt = 0;
+  WiFi.mode(WIFI_STA);
+  WiFi.begin("minux2G", "0123456789han");
+  Serial.print("Connecting to WiFi ..");
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print('.');
+    delay(1000);
+    cnt++;
+    if(cnt >= 10) break;
+    else return false;
+  }
+  return true;
+
+}
+
+void update_display() {
+  tft.fillScreen(TFT_BLACK);
+  tft.setTextColor(TFT_WHITE,TFT_DARKGREEN);
+
+  tft.setTextSize(1);
+
+  tft.drawString("7.3", 80,50 , 7);
+
+
+}
+
+void debug_out(){
   Serial.printf("------- %s -------\n", MODE_ITEM[CUR_MODE]);
   if (CUR_MODE == BOOT_MODE){
    Serial.printf("Welcome IO2 \n [M] to Set \n");
@@ -162,46 +238,4 @@ void update_display(){
   else if (CUR_MODE == REBOOT_MODE){
     Serial.printf("REBOOT 5,4,3,2,1");
 }
-}
-
-// optional function to subscribe to MQTT topics
-void subscribeTo() {
-  Serial.println("subscribing to some topics...");
-  // subscribe to some topic(s)
-  char topic[100];
-  snprintf(topic, sizeof(topic), "%s%s%s", "switch/", wmm.deviceId, "/led1/output");
-  wmm.client->subscribe(topic);
-}
-
-// optional function to process MQTT subscribed to topics coming in
-void subscriptionCallback(char* topic, byte* message, unsigned int length) {
-  Serial.print("Message arrived on topic: ");
-  Serial.print(topic);
-  Serial.print(". Message: ");
-  String messageTemp;
-
-  for (int i = 0; i < length; i++) {
-    Serial.print((char)message[i]);
-    messageTemp += (char)message[i];
-  }
-  Serial.println();
-
-  //if (String(topic) == "switch/esp1234/led1/output") {
-  //  Serial.print("Changing led1 output to ");
-  //}
-}
-bool initWiFi() {
-  int cnt = 0;
-  WiFi.mode(WIFI_STA);
-  WiFi.begin("minux2G", "0123456789han");
-  Serial.print("Connecting to WiFi ..");
-  while (WiFi.status() != WL_CONNECTED) {
-    Serial.print('.');
-    delay(1000);
-    cnt++;
-    if(cnt >= 10) break;
-    else return false;
-  }
-  return true;
-
 }

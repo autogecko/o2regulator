@@ -5,9 +5,28 @@
 #include "Arduino.h"
 #include "Button2.h"
 
+#include <TFT_eSPI.h> // Graphics and font library for ILI9341 driver chip
+#include <SPI.h>
 //#include "secrets.h"
 #include <WiFiMQTTManager.h>
-
+#define TFT_BLACK       0x0000
+#define TFT_NAVY        0x000F
+#define TFT_DARKGREEN   0x03E0
+#define TFT_DARKCYAN    0x03EF
+#define TFT_MAROON      0x7800
+#define TFT_PURPLE      0x780F
+#define TFT_OLIVE       0x7BE0
+#define TFT_LIGHTGREY   0xC618
+#define TFT_DARKGREY    0x7BEF
+#define TFT_BLUE        0x001F
+#define TFT_GREEN       0x07E0
+#define TFT_CYAN        0x07FF
+#define TFT_RED         0xF800
+#define TFT_MAGENTA     0xF81F
+#define TFT_YELLOW      0xFFE0
+#define TFT_WHITE       0xFFFF
+#define TFT_ORANGE      0xFDA0
+#define TFT_GREENYELLOW 0xB7E0
 enum Mode_Type {
   MENU_MODE = 0,
   BOOT_MODE,
@@ -46,6 +65,7 @@ extern char subMenuItem[nSubMenu][12] ;
 static Button2 btnUp, btnMenu, btnDn ;
 
 extern WiFiMQTTManager wmm;
+extern TFT_eSPI tft;
 static int pressureValue = 100;
 // ------------------------------------------------------------------
 //
@@ -64,3 +84,5 @@ void update_display();
 void subscribeTo() ;
 void subscriptionCallback(char* topic, byte* message, unsigned int length) ;
 bool initWiFi();
+void update_display_temp();
+void debug_out();
