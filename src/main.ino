@@ -48,7 +48,10 @@ void setup() {
 //----------------------------------------
 tft.init();
 tft.setRotation(1);
-
+tft.fillScreen(TFT_BLACK);
+tft.setTextColor(TFT_BLUE, TFT_WHITE);
+tft.setTextSize(2);
+tft.drawString("Welcome iO2",30, 120,4);
 //----------------------------------------
   // Network Setup
   //

@@ -173,13 +173,66 @@ bool initWiFi() {
 }
 
 void update_display() {
-  tft.fillScreen(TFT_BLACK);
-  tft.setTextColor(TFT_WHITE,TFT_DARKGREEN);
 
-  tft.setTextSize(1);
+  if (CUR_MODE == BOOT_MODE){
+   tft.println("Weleomc iO2");
+   tft.println("[M] to MENU");
+  }
 
-  tft.drawString("7.3", 80,50 , 7);
+  else if (CUR_MODE == MENU_MODE) {
 
+    tft.fillScreen(TFT_BLACK);
+    for (int i = 0; i < nMainMenu; i++) {
+      if (i == nSelectedMainMenu) {
+        tft.setTextSize(1.8);
+        tft.setTextColor(TFT_WHITE, TFT_DARKGREEN);
+        tft.drawString(mainMenuItem[i], 30, 60 * (i + 1),4);
+      } else {
+        tft.setTextColor(TFT_WHITE, TFT_BLACK);
+        tft.setTextSize(1.5);
+        tft.drawString(mainMenuItem[i], 30, 60 * (i + 1),4);
+      }
+    }
+  }
+  else if (CUR_MODE == SETTING_MODE) {
+    Serial.printf("** CUR_MODE: %s \n", MODE_ITEM[CUR_MODE]);
+    for (int i = 0; i < nSubMenu; i++) {
+      if (i == nSelectedSubMenu)
+        Serial.printf("* %s\n", subMenuItem[i]);
+      else
+        Serial.printf("%s\n", subMenuItem[i]);
+   }
+  }
+
+  else if (CUR_MODE == WARN_CHANGE_MODE) {
+   Serial.printf("WARN LEVEL: %d L/min\n", warnLevel);
+   Serial.printf("HOLD menu to Set /n Click to Return\n");
+  }
+
+  else if (CUR_MODE == WARN_CONFIRM_MODE) {
+   Serial.printf(
+       "*** SET WARN_LEVEL : %d *** \n Return to RUNNING_MODE in 3 sec\n",
+       warnLevel);
+   delay(3000);
+   set_mode(RUNNING_MODE);
+  }
+
+  else if (CUR_MODE == RUNNING_MODE) {
+   Serial.printf(" %d L/min [%d]\n", pressureValue, warnLevel);
+  }
+
+  else if (CUR_MODE == INFO_MODE) {
+   Serial.printf(
+       "INFORMATION\n -ID:xxxx1234\n -GasService:30L\n [M] to Return");
+  }
+
+  else if (CUR_MODE == NET_CHECK_MODE){
+    Serial.printf("CHECKING NETWORK \n");
+  }
+
+  else if (CUR_MODE == REBOOT_MODE){
+    Serial.printf("REBOOT 5,4,3,2,1");
+}
 
 }
 
