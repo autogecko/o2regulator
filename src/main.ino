@@ -5,21 +5,26 @@
 #define pinBtnUp 25
 #define pinBtnMenu 33
 #define pinBtnDn 32
+#define pinSenor 35
 
+#define pinWiFiSet 26
 
+bool WiFistatus = false;
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   Serial.println("Hello, ESP32!");
   delay(50);
+  pinMode(pinWiFiSet, INPUT_PULLUP);
+ // WiFistatus = initWiFi();
 
   // WiFi-Mqtt 설정
-  wmm.subscribeTo = subscribeTo;
-  // required - allow WiFiMQTTManager to do it's setup
-  wmm.setup(__SKETCH_NAME__);
-  // optional - define a callback to handle incoming messages from MQTT
-  wmm.client->setCallback(subscriptionCallback);
+      wmm.subscribeTo = subscribeTo;
+      // required - allow WiFiMQTTManager to do it's setup
+      wmm.setup(__SKETCH_NAME__);
+      /* // optional - define a callback to handle incoming messages from MQTT */
+      wmm.client->setCallback(subscriptionCallback);
 
 
 
@@ -54,21 +59,20 @@ void loop() {
     btnDn.loop();
     btnMenu.loop();
 
-  wmm.loop();
+   wmm.loop();
 
-  // optional - example of publishing to MQTT a sensor reading once a 1 minute
-  long now = millis();
-  if (now - wmm.lastMsg > 1000) {
-    wmm.lastMsg = now;
-    float temperature = 70; // read sensor here
-    Serial.print("Temperature: ");
-    Serial.println(temperature);
-    char topic[100];
-    snprintf(topic, sizeof(topic), "%s%s%s", "sensor/", wmm.deviceId, "/temperature");
-    wmm.client->publish(topic, String(temperature).c_str(), true);
-  }
+  /* // optional - example of publishing to MQTT a sensor reading once a 1 minute */
+  /* long now = millis(); */
+  /* if (now - wmm.lastMsg > 1000) { */
+  /*   wmm.lastMsg = now; */
+  /*   int temperature = analogRead(pinSenor); // read sensor here */
+  /*   Serial.print("Temperature: "); */
+  /*   Serial.println(temperature); */
+  /*   char topic[100]; */
+  /*   snprintf(topic, sizeof(topic), "%s%s%s", "sensor/", wmm.deviceId, "/temperature"); */
+  /*   wmm.client->publish(topic, String(temperature).c_str(), true); */
+  /* } */
 
-//    update_display();
 }
 
 // optional function to subscribe to MQTT topics

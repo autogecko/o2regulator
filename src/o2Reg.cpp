@@ -190,3 +190,18 @@ void subscriptionCallback(char* topic, byte* message, unsigned int length) {
   //  Serial.print("Changing led1 output to ");
   //}
 }
+bool initWiFi() {
+  int cnt = 0;
+  WiFi.mode(WIFI_STA);
+  WiFi.begin("minux2G", "0123456789han");
+  Serial.print("Connecting to WiFi ..");
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print('.');
+    delay(1000);
+    cnt++;
+    if(cnt >= 10) break;
+    else return false;
+  }
+  return true;
+
+}

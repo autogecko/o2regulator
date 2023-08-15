@@ -63,3 +63,4 @@ void update_display();
 
 void subscribeTo() ;
 void subscriptionCallback(char* topic, byte* message, unsigned int length) ;
+bool initWiFi();
